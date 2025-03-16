@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecosphere.content.mapper.RecommendedBookMapper">
+    
+    <resultMap type="RecommendedBook" id="RecommendedBookResult">
+        <result property="id"    column="id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="bookDescription"    column="book_description"    />
+        <result property="bookCover"    column="book_cover"    />
+        <result property="bookAuthor"    column="book_author"    />
+        <result property="authorNationality"    column="author_nationality"    />
+        <result property="bookType"    column="book_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectRecommendedBookVo">
+        select id, book_name, book_description, book_cover, book_author, author_nationality, book_type, create_time, update_time from tb_recommended_book
+    </sql>
+
+    <select id="selectRecommendedBookList" parameterType="RecommendedBook" resultMap="RecommendedBookResult">
+        <include refid="selectRecommendedBookVo"/>
+        <where>  
+            <if test="bookName != null  and bookName != ''"> and book_name like concat('%', #{bookName}, '%')</if>
+            <if test="bookDescription != null  and bookDescription != ''"> and book_description like concat('%', #{bookDescription}, '%')</if>
+            <if test="bookAuthor != null  and bookAuthor != ''"> and book_author = #{bookAuthor}</if>
+            <if test="authorNationality != null  and authorNationality != ''"> and author_nationality = #{authorNationality}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectRecommendedBookById" parameterType="String" resultMap="RecommendedBookResult">
+        <include refid="selectRecommendedBookVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRecommendedBook" parameterType="RecommendedBook" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_recommended_book
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bookName != null and bookName != ''">book_name,</if>
+            <if test="bookDescription != null">book_description,</if>
+            <if test="bookCover != null">book_cover,</if>
+            <if test="bookAuthor != null and bookAuthor != ''">book_author,</if>
+            <if test="authorNationality != null">author_nationality,</if>
+            <if test="bookType != null">book_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bookName != null and bookName != ''">#{bookName},</if>
+            <if test="bookDescription != null">#{bookDescription},</if>
+            <if test="bookCover != null">#{bookCover},</if>
+            <if test="bookAuthor != null and bookAuthor != ''">#{bookAuthor},</if>
+            <if test="authorNationality != null">#{authorNationality},</if>
+            <if test="bookType != null">#{bookType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRecommendedBook" parameterType="RecommendedBook">
+        update tb_recommended_book
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bookName != null and bookName != ''">book_name = #{bookName},</if>
+            <if test="bookDescription != null">book_description = #{bookDescription},</if>
+            <if test="bookCover != null">book_cover = #{bookCover},</if>
+            <if test="bookAuthor != null and bookAuthor != ''">book_author = #{bookAuthor},</if>
+            <if test="authorNationality != null">author_nationality = #{authorNationality},</if>
+            <if test="bookType != null">book_type = #{bookType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRecommendedBookById" parameterType="String">
+        delete from tb_recommended_book where id = #{id}
+    </delete>
+
+    <delete id="deleteRecommendedBookByIds" parameterType="String">
+        delete from tb_recommended_book where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
