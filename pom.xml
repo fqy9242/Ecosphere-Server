@@ -234,6 +234,12 @@
                 <artifactId>ecosphere-user</artifactId>
                 <version>${ecosphere.version}</version>
             </dependency>
+            <!--交易模块-->
+            <dependency>
+                <groupId>com.ecosphere</groupId>
+                <artifactId>ecosphere-deal</artifactId>
+                <version>${ecosphere.version}</version>
+            </dependency>
 
 
 
@@ -250,6 +256,7 @@
         <module>ecosphere-AI</module>
         <module>ecosphere-content</module>
         <module>ecosphere-user</module>
+        <module>ecosphere-deal</module>
     </modules>
     <packaging>pom</packaging>
 

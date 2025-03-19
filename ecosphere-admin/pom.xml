@@ -68,6 +68,11 @@
             <groupId>com.ecosphere</groupId>
             <artifactId>ecosphere-user</artifactId>
         </dependency>
+        <!--交易模块-->
+        <dependency>
+            <groupId>com.ecosphere</groupId>
+            <artifactId>ecosphere-deal</artifactId>
+        </dependency>
 
     </dependencies>
 
