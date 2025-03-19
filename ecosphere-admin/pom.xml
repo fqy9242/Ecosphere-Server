@@ -63,6 +63,11 @@
             <groupId>com.ecosphere</groupId>
             <artifactId>ecosphere-content</artifactId>
         </dependency>
+        <!--用户相关模块-->
+        <dependency>
+            <groupId>com.ecosphere</groupId>
+            <artifactId>ecosphere-user</artifactId>
+        </dependency>
 
     </dependencies>
 
