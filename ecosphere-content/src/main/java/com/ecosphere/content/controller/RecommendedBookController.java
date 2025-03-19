@@ -2,6 +2,7 @@ package com.ecosphere.content.controller;
 
 import java.util.List;
 
+import com.ecosphere.common.annotation.Anonymous;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import com.ecosphere.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/content/recommendedBook")
+@Anonymous
 public class RecommendedBookController extends BaseController
 {
     @Autowired
