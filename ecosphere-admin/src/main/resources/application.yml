@@ -154,7 +154,7 @@ dromara:
         enable-storage: true  # 启用存储
         # 密钥信息 从环境变量中获取
         access-key: ${OSS_ACCESS_KEY_ID}
-        secret-key: ${OSS_ACCESS_KEY_SECRET
+        secret-key: ${OSS_ACCESS_KEY_SECRET}
         end-point: oss-cn-guangzhou.aliyuncs.com
         bucket-name: yl-ecosphere
         domain: https://yl-ecosphere.oss-cn-guangzhou.aliyuncs.com/ # 访问域名，注意“/”结尾，例如：https://abc.oss-cn-shanghai.aliyuncs.com/
