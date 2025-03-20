@@ -35,6 +35,9 @@
         <jakarta.version>6.0.0</jakarta.version>
         <springdoc.version>2.6.0</springdoc.version>
         <spring-boot-ai-alibaba.version>1.0.0-M3.1</spring-boot-ai-alibaba.version>
+        <aliyun-oss.version>3.16.1</aliyun-oss.version>
+        <xfileStoratge.version>2.2.1</xfileStoratge.version>
+
     </properties>
 
     <!-- 依赖声明 -->
@@ -202,6 +205,42 @@
                 <artifactId>ecosphere-content</artifactId>
                 <version>${ecosphere.version}</version>
             </dependency>
+            <!--websocket-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-websocket</artifactId>
+            </dependency>
+            <!--x file storage-->
+            <dependency>
+                <groupId>org.dromara.x-file-storage</groupId>
+                <artifactId>x-file-storage-spring</artifactId>
+                <version>2.2.1</version>
+            </dependency>
+            <!--阿里云OSS依赖-->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-oss.version}</version>
+            </dependency>
+            <!--x file storage-->
+            <dependency>
+            <groupId>org.dromara.x-file-storage</groupId>
+            <artifactId>x-file-storage-spring</artifactId>
+            <version>${xfileStoratge.version}</version>
+        </dependency>
+            <!--用户相关模块-->
+            <dependency>
+                <groupId>com.ecosphere</groupId>
+                <artifactId>ecosphere-user</artifactId>
+                <version>${ecosphere.version}</version>
+            </dependency>
+            <!--交易模块-->
+            <dependency>
+                <groupId>com.ecosphere</groupId>
+                <artifactId>ecosphere-deal</artifactId>
+                <version>${ecosphere.version}</version>
+            </dependency>
+
 
 
         </dependencies>
@@ -216,6 +255,8 @@
         <module>ecosphere-common</module>
         <module>ecosphere-AI</module>
         <module>ecosphere-content</module>
+        <module>ecosphere-user</module>
+        <module>ecosphere-deal</module>
     </modules>
     <packaging>pom</packaging>
 

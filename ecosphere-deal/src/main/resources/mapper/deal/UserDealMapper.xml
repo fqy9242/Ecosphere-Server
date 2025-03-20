@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecosphere.mapper.UserDealMapper">
+    
+    <resultMap type="UserDeal" id="UserDealResult">
+        <result property="id"    column="id"    />
+        <result property="goodName"    column="good_name"    />
+        <result property="dealDescription"    column="deal_description"    />
+        <result property="exchangeCondition"    column="exchange_condition"    />
+        <result property="goodTag"    column="good_tag"    />
+        <result property="creatorId"    column="creator_id"    />
+        <result property="dealStatus"    column="deal_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap id="UserDealUserDealGoodImgResult" type="UserDeal" extends="UserDealResult">
+        <collection property="userDealGoodImgList" ofType="UserDealGoodImg" column="id" select="selectUserDealGoodImgList" />
+    </resultMap>
+
+    <resultMap type="UserDealGoodImg" id="UserDealGoodImgResult">
+        <result property="id"    column="id"    />
+        <result property="dealGoodId"    column="deal_good_id"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+    <sql id="selectUserDealVo">
+        select id, good_name, deal_description, exchange_condition, good_tag, creator_id, deal_status, create_time, update_time from user_deal
+    </sql>
+
+    <select id="selectUserDealList" parameterType="UserDeal" resultMap="UserDealResult">
+        <include refid="selectUserDealVo"/>
+        <where>  
+            <if test="goodName != null  and goodName != ''"> and good_name like concat('%', #{goodName}, '%')</if>
+            <if test="dealDescription != null  and dealDescription != ''"> and deal_description like concat('%', #{dealDescription}, '%')</if>
+            <if test="exchangeCondition != null  and exchangeCondition != ''"> and exchange_condition = #{exchangeCondition}</if>
+            <if test="goodTag != null  and goodTag != ''"> and good_tag like concat('%', #{goodTag}, '%')</if>
+            <if test="creatorId != null  and creatorId != ''"> and creator_id = #{creatorId}</if>
+            <if test="dealStatus != null "> and deal_status = #{dealStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserDealById" parameterType="String" resultMap="UserDealUserDealGoodImgResult">
+        select id, good_name, deal_description, exchange_condition, good_tag, creator_id, deal_status, create_time, update_time
+        from user_deal
+        where id = #{id}
+    </select>
+
+    <select id="selectUserDealGoodImgList" resultMap="UserDealGoodImgResult">
+        select id, deal_good_id, img_url, create_time, update_time, is_delete
+        from user_deal_good_img
+        where deal_good_id = #{deal_good_id}
+    </select>
+
+    <insert id="insertUserDeal" parameterType="UserDeal" useGeneratedKeys="true" keyProperty="id">
+        insert into user_deal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodName != null and goodName != ''">good_name,</if>
+            <if test="dealDescription != null">deal_description,</if>
+            <if test="exchangeCondition != null">exchange_condition,</if>
+            <if test="goodTag != null">good_tag,</if>
+            <if test="creatorId != null and creatorId != ''">creator_id,</if>
+            <if test="dealStatus != null">deal_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodName != null and goodName != ''">#{goodName},</if>
+            <if test="dealDescription != null">#{dealDescription},</if>
+            <if test="exchangeCondition != null">#{exchangeCondition},</if>
+            <if test="goodTag != null">#{goodTag},</if>
+            <if test="creatorId != null and creatorId != ''">#{creatorId},</if>
+            <if test="dealStatus != null">#{dealStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserDeal" parameterType="UserDeal">
+        update user_deal
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodName != null and goodName != ''">good_name = #{goodName},</if>
+            <if test="dealDescription != null">deal_description = #{dealDescription},</if>
+            <if test="exchangeCondition != null">exchange_condition = #{exchangeCondition},</if>
+            <if test="goodTag != null">good_tag = #{goodTag},</if>
+            <if test="creatorId != null and creatorId != ''">creator_id = #{creatorId},</if>
+            <if test="dealStatus != null">deal_status = #{dealStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserDealById" parameterType="String">
+        delete from user_deal where id = #{id}
+    </delete>
+
+    <delete id="deleteUserDealByIds" parameterType="String">
+        delete from user_deal where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteUserDealGoodImgByDealGoodIds" parameterType="String">
+        delete from user_deal_good_img where deal_good_id in 
+        <foreach item="dealGoodId" collection="array" open="(" separator="," close=")">
+            #{dealGoodId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteUserDealGoodImgByDealGoodId" parameterType="String">
+        delete from user_deal_good_img where deal_good_id = #{dealGoodId}
+    </delete>
+
+    <insert id="batchUserDealGoodImg">
+        insert into user_deal_good_img( id, deal_good_id, img_url, create_time, update_time, is_delete) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.dealGoodId}, #{item.imgUrl}, #{item.createTime}, #{item.updateTime}, #{item.isDelete})
+        </foreach>
+    </insert>
+</mapper>

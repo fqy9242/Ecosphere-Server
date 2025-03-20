@@ -2,6 +2,7 @@ package com.ecosphere.AI;
 
 import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
 import com.ecosphere.common.annotation.Anonymous;
+import com.ecosphere.common.core.controller.BaseController;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Anonymous
 @RestController
 @RequestMapping("/ai/deepseek")
-public class DeepSeekController {
+public class DeepSeekController extends BaseController {
     private final DashScopeChatModel chatModel;
 
     public DeepSeekController(DashScopeChatModel chatModel) {
@@ -24,6 +25,6 @@ public class DeepSeekController {
     public Object chat(String message) {
         ChatResponse chatResponse = chatModel.call(new Prompt(message));
 //        return chatResponse.getResult().getOutput().getContent();
-        return chatResponse.getResult();
+        return success(chatResponse.getResult());
     }
 }

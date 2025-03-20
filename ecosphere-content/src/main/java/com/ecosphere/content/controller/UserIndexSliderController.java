@@ -2,6 +2,7 @@ package com.ecosphere.content.controller;
 
 import java.util.List;
 
+import com.ecosphere.common.annotation.Anonymous;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import com.ecosphere.common.core.page.TableDataInfo;
  * @date 2025-02-05
  */
 @RestController
+@Anonymous
 @RequestMapping("/content/indexSlider")
 public class UserIndexSliderController extends BaseController
 {
