@@ -59,14 +59,11 @@
 	1. 克隆项目 `git clone git@github.com:fqy9242/Ecosphere-Server.git`
 
 	2. 使用idea导入 并安装maven依赖
+	3. 在自己的数据库创建数据库`yl_ecosphere` 并在项目目录下的sql目录下运行`yl_ecosphere.sql`脚本
 
 	2. 更改spring 配置 更改自己的数据库信息![image-20250323190018277](https://q-gallery.oss-cn-guangzhou.aliyuncs.com/img/202503231900373.png)
-
 	3. 配置文件上传OSS相关信息
-
 		1. ![image-20250323190947018](https://q-gallery.oss-cn-guangzhou.aliyuncs.com/img/202503231909100.png)
-
-		
 
 4. 启动redis
 5. 配置环境变量 
