@@ -1,4 +1,5 @@
 # 项目相关配置
+
 ruoyi:
   # 名称
   name: RuoYi
@@ -7,7 +8,7 @@ ruoyi:
   # 版权年份
   copyrightYear: 2025
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: D:/ruoyi/uploadPath
+  profile: /
   # 获取ip地址开关
   addressEnabled: false
   # 验证码类型 math 数字计算 char 字符验证
@@ -47,6 +48,66 @@ user:
 
 # Spring配置
 spring:
+    # 数据源配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: ${ecosphere.datasource.driver-class-name}
+    druid:
+      # 主库数据源
+      master:
+        url: ${ecosphere.datasource.url}
+        username: ${ecosphere.datasource.username}
+        password: ${ecosphere.datasource.password}
+      # 从库数据源
+      slave:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url:
+        username:
+        password:
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置连接超时时间
+      connectTimeout: 30000
+      # 配置网络超时时间
+      socketTimeout: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: ruoyi
+        login-password: 123456
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
   # ai配置
   ai:
     dashscope:
@@ -60,7 +121,7 @@ spring:
     # 国际化资源文件路径
     basename: i18n/messages
   profiles:
-    active: druid
+    active: dev
   # 文件上传
   servlet:
     multipart:
@@ -77,9 +138,9 @@ spring:
     # redis 配置
     redis:
       # 地址
-      host: localhost
-      # 端口，默认为6379
-      port: 6379
+      host: ${ecosphere.redis.host}
+      # 端口
+      port: ${ecosphere.redis.port}
       # 数据库索引
       database: 0
       # 密码
@@ -159,3 +220,9 @@ dromara:
         bucket-name: yl-ecosphere
         domain: https://yl-ecosphere.oss-cn-guangzhou.aliyuncs.com/ # 访问域名，注意“/”结尾，例如：https://abc.oss-cn-shanghai.aliyuncs.com/
         base-path: web/ # 基础路径
+ecosphere:
+  AI_DEFAULT_PROMPT: 你是一个环保专家，请用中文回答以下问题，要求：
+    1. 数据需标注来源和年份
+    2. 政策解读需注明文件号
+    3. 给出可验证的参考资料
+    4. 使用通俗易懂的语言
