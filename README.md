@@ -14,6 +14,7 @@
 | -------- | ------------------- |
 | 开发框架 | Vue3                |
 | 脚本语言 | javascript          |
+| node版本 | v20.17.0            |
 | 构建工具 | Vite                |
 | 组件库   | Element plus        |
 | 快速构建 | RuoYi v3.8.9        |
@@ -33,3 +34,51 @@
 
 ## **功能预览**
 
+
+
+# 部署方式
+
+## 本地运行
+
+- 前端
+
+	1. 克隆项目
+
+	1. 使用vscode或其他工具导入
+
+	1. 项目根目录运行终端输入`run` 如果成功运行则跳过四五步
+
+	1. 安装依赖 `npm i`
+
+	1. 启动 `npm run dev`
+
+	1. 后台管理员账户: `admin` 密码`admin123`
+
+- 后端
+
+	1. 克隆项目 `git clone git@github.com:fqy9242/Ecosphere-Server.git`
+
+	2. 使用idea导入 并安装maven依赖
+
+	2. 更改spring 配置 更改自己的数据库信息![image-20250323190018277](https://q-gallery.oss-cn-guangzhou.aliyuncs.com/img/202503231900373.png)
+
+	3. 配置文件上传OSS相关信息
+
+		1. ![image-20250323190947018](https://q-gallery.oss-cn-guangzhou.aliyuncs.com/img/202503231909100.png)
+
+		
+
+4. 启动redis
+5. 配置环境变量 
+	1. `AI_DASHSCOPE_API_KEY` => 阿里云通义百炼的key
+	2. `OSS_ACCESS_KEY_ID` => 阿里云keyID
+	3. `OSS_ACCESS_KEY_SECRET` => 阿里云keySecret
+6. 启动spring boot
+
+## Docker运行
+
+1. 配置相关环境变量
+
+2. 懒得写了 配置信息见图
+
+	![image-20250323191432583](https://q-gallery.oss-cn-guangzhou.aliyuncs.com/img/202503231914631.png)
