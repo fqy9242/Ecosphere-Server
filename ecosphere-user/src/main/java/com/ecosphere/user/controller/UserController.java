@@ -1,6 +1,10 @@
 package com.ecosphere.user.controller;
 
 import java.util.List;
+
+import com.ecosphere.common.annotation.Anonymous;
+import com.ecosphere.user.domain.Dto.UserLoginDto;
+import com.ecosphere.user.domain.vo.UserLoginVo;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +33,7 @@ import com.ecosphere.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/user/users")
-public class EcosphereUserController extends BaseController
+public class UserController extends BaseController
 {
     @Autowired
     private IEcosphereUserService ecosphereUserService;
@@ -101,4 +105,25 @@ public class EcosphereUserController extends BaseController
     {
         return toAjax(ecosphereUserService.deleteEcosphereUserByIds(ids));
     }
+
+    /**
+     * 统计注册用户数量
+     */
+    @Anonymous
+    @GetMapping("/count")
+    public AjaxResult count() {
+        return AjaxResult.success(ecosphereUserService.count());
+    }
+
+    /**
+     * 用户登录
+     */
+    @PostMapping("/login")
+    @Anonymous
+    public AjaxResult login(UserLoginDto userLoginDto) {
+        UserLoginVo vo = ecosphereUserService.login(userLoginDto);
+        return AjaxResult.success(vo);
+    }
+
+
 }

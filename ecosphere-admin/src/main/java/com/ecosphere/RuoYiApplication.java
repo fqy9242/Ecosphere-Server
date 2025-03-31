@@ -1,6 +1,7 @@
 package com.ecosphere;
 
 import org.dromara.x.file.storage.spring.EnableFileStorage;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  */
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 @EnableFileStorage
+@MapperScan("com.ecosphere.**.mapper")
 public class RuoYiApplication
 {
     public static void main(String[] args)

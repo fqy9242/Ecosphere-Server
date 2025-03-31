@@ -1,7 +1,13 @@
 package com.ecosphere.user.service.impl;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ecosphere.common.constant.MessageConstants;
+import com.ecosphere.common.exception.base.BaseException;
 import com.ecosphere.common.utils.DateUtils;
+import com.ecosphere.user.domain.Dto.UserLoginDto;
+import com.ecosphere.user.domain.vo.UserLoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ecosphere.user.mapper.EcosphereUserMapper;
@@ -15,7 +21,7 @@ import com.ecosphere.user.service.IEcosphereUserService;
  * @date 2025-03-19
  */
 @Service
-public class EcosphereUserServiceImpl implements IEcosphereUserService 
+public class EcosphereUserServiceImpl extends ServiceImpl<EcosphereUserMapper, EcosphereUser> implements IEcosphereUserService
 {
     @Autowired
     private EcosphereUserMapper ecosphereUserMapper;
@@ -92,5 +98,32 @@ public class EcosphereUserServiceImpl implements IEcosphereUserService
     public int deleteEcosphereUserById(String id)
     {
         return ecosphereUserMapper.deleteEcosphereUserById(id);
+    }
+
+    /**
+     * 获取注册用户数量
+     *
+     * @return 结果
+     */
+//    @Override
+//    public Integer count() {
+//        return ecosphereUserMapper.count();
+//    }
+
+    /**
+     * 用户登录
+     *
+     * @param userLoginDto dto对俩
+     * @return 结果
+     */
+    @Override
+    public UserLoginVo login(UserLoginDto userLoginDto) {
+//        // 判断用户是否存在
+//        EcosphereUser user = ecosphereUserMapper.selectByUserName(userLoginDto.getUsername());
+//        if (user == null) {
+//            throw new BaseException(MessageConstants.USER_NOT_EXIST);
+//        }
+
+        return null;
     }
 }

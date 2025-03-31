@@ -1,7 +1,11 @@
 package com.ecosphere.user.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.ecosphere.user.domain.Dto.UserLoginDto;
 import com.ecosphere.user.domain.EcosphereUser;
+import com.ecosphere.user.domain.vo.UserLoginVo;
 
 /**
  * 注册用户Service接口
@@ -9,7 +13,7 @@ import com.ecosphere.user.domain.EcosphereUser;
  * @author qht
  * @date 2025-03-19
  */
-public interface IEcosphereUserService 
+public interface IEcosphereUserService extends IService<EcosphereUser>
 {
     /**
      * 查询注册用户
@@ -58,4 +62,12 @@ public interface IEcosphereUserService
      * @return 结果
      */
     public int deleteEcosphereUserById(String id);
+
+
+    /**
+     *  用户登录
+     * @param userLoginDto dto对俩
+     * @return 结果
+     */
+    UserLoginVo login(UserLoginDto userLoginDto);
 }
