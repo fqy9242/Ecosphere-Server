@@ -39,6 +39,7 @@
         <aliyun-oss.version>3.16.1</aliyun-oss.version>
         <xfileStoratge.version>2.2.1</xfileStoratge.version>
         <lombok.version>1.18.36</lombok.version>
+        <knife4j.version>4.4.0</knife4j.version>
 
     </properties>
 
@@ -260,6 +261,12 @@
                 <artifactId>ecosphere-deal</artifactId>
                 <version>${ecosphere.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
 
 
 
