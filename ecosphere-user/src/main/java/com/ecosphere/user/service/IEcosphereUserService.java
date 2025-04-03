@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecosphere.user.domain.Dto.UserLoginDto;
-import com.ecosphere.user.domain.EcosphereUser;
+import com.ecosphere.common.domain.entity.EcosphereUser;
 import com.ecosphere.user.domain.vo.UserLoginVo;
 
 /**

@@ -58,7 +58,16 @@
             <groupId>com.ecosphere</groupId>
             <artifactId>ecosphere-system</artifactId>
         </dependency>
-
+        <!--knife4j-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+        </dependency>
+        <!--通用模块-->
+        <dependency>
+            <groupId>com.ecosphere</groupId>
+            <artifactId>ecosphere-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

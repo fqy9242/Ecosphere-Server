@@ -5,6 +5,8 @@ import java.util.List;
 import com.ecosphere.common.annotation.Anonymous;
 import com.ecosphere.user.domain.Dto.UserLoginDto;
 import com.ecosphere.user.domain.vo.UserLoginVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ import com.ecosphere.common.annotation.Log;
 import com.ecosphere.common.core.controller.BaseController;
 import com.ecosphere.common.core.domain.AjaxResult;
 import com.ecosphere.common.enums.BusinessType;
-import com.ecosphere.user.domain.EcosphereUser;
+import com.ecosphere.common.domain.entity.EcosphereUser;
 import com.ecosphere.user.service.IEcosphereUserService;
 import com.ecosphere.common.utils.poi.ExcelUtil;
 import com.ecosphere.common.core.page.TableDataInfo;
@@ -31,7 +33,9 @@ import com.ecosphere.common.core.page.TableDataInfo;
  * @author qht
  * @date 2025-03-19
  */
+
 @RestController
+@Tag(name = "前台用户相关模块")
 @RequestMapping("/user/users")
 public class UserController extends BaseController
 {
@@ -109,7 +113,8 @@ public class UserController extends BaseController
     /**
      * 统计注册用户数量
      */
-    @Anonymous
+    @Operation(summary = "统计用户注册数量")
+//    @Anonymous
     @GetMapping("/count")
     public AjaxResult count() {
         return AjaxResult.success(ecosphereUserService.count());
@@ -119,11 +124,13 @@ public class UserController extends BaseController
      * 用户登录
      */
     @PostMapping("/login")
+    @Operation(summary = "用户登录")
     @Anonymous
-    public AjaxResult login(UserLoginDto userLoginDto) {
+    public AjaxResult login(@RequestBody UserLoginDto userLoginDto) {
         UserLoginVo vo = ecosphereUserService.login(userLoginDto);
         return AjaxResult.success(vo);
     }
-
-
+    public AjaxResult register() {
+        return AjaxResult.success();
+    }
 }

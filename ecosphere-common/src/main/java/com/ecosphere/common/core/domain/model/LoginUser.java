@@ -2,6 +2,7 @@ package com.ecosphere.common.core.domain.model;
 
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.ecosphere.common.core.domain.entity.SysUser;
+import com.ecosphere.common.domain.entity.EcosphereUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
@@ -12,8 +13,11 @@ import java.util.Set;
  * 
  * @author ruoyi
  */
-public class LoginUser implements UserDetails
-{
+public class LoginUser implements UserDetails {
+
+
+    private LoginType loginType = LoginType.BACK;
+    private EcosphereUser ecosphereUser;
     private static final long serialVersionUID = 1L;
 
     /**
@@ -81,6 +85,16 @@ public class LoginUser implements UserDetails
         this.permissions = permissions;
     }
 
+
+    public EcosphereUser getEcosphereUser() {
+        return ecosphereUser;
+    }
+
+    public void setEcosphereUser(EcosphereUser ecosphereUser) {
+        this.ecosphereUser = ecosphereUser;
+        this.loginType = LoginType.WEB_FRONT;
+    }
+
     public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions)
     {
         this.userId = userId;
@@ -88,7 +102,12 @@ public class LoginUser implements UserDetails
         this.user = user;
         this.permissions = permissions;
     }
-
+    public LoginType getLoginType() {
+        return loginType;
+    }
+    public void setLoginType(LoginType loginType) {
+        this.loginType = loginType;
+    }
     public Long getUserId()
     {
         return userId;
@@ -129,7 +148,7 @@ public class LoginUser implements UserDetails
     @Override
     public String getUsername()
     {
-        return user.getUserName();
+        return user != null ? user.getUserName() : ecosphereUser.getUsername();
     }
 
     /**
@@ -263,4 +282,8 @@ public class LoginUser implements UserDetails
     {
         return null;
     }
+}
+enum LoginType {
+    WEB_FRONT,
+    BACK
 }
