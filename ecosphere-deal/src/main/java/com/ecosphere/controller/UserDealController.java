@@ -1,6 +1,9 @@
 package com.ecosphere.controller;
 
 import java.util.List;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,7 @@ import com.ecosphere.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/deal/userDeal")
+@Tag(name = "用户交易相关模块")
 public class UserDealController extends BaseController
 {
     @Autowired
@@ -37,8 +41,8 @@ public class UserDealController extends BaseController
     /**
      * 查询用户交易列表
      */
-    @PreAuthorize("@ss.hasPermi('deal:userDeal:list')")
     @GetMapping("/list")
+    @Operation(summary = "查询用户交易列表")
     public TableDataInfo list(UserDeal userDeal)
     {
         startPage();
@@ -52,6 +56,7 @@ public class UserDealController extends BaseController
     @PreAuthorize("@ss.hasPermi('deal:userDeal:export')")
     @Log(title = "用户交易", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
+    @Operation(summary = "导出用户交易列表")
     public void export(HttpServletResponse response, UserDeal userDeal)
     {
         List<UserDeal> list = userDealService.selectUserDealList(userDeal);
@@ -64,6 +69,7 @@ public class UserDealController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('deal:userDeal:query')")
     @GetMapping(value = "/{id}")
+    @Operation(summary = "获取用户交易详细信息")
     public AjaxResult getInfo(@PathVariable("id") String id)
     {
         return success(userDealService.selectUserDealById(id));
@@ -75,6 +81,7 @@ public class UserDealController extends BaseController
     @PreAuthorize("@ss.hasPermi('deal:userDeal:add')")
     @Log(title = "用户交易", businessType = BusinessType.INSERT)
     @PostMapping
+    @Operation(summary = "新增用户交易")
     public AjaxResult add(@RequestBody UserDeal userDeal)
     {
         return toAjax(userDealService.insertUserDeal(userDeal));
@@ -86,6 +93,7 @@ public class UserDealController extends BaseController
     @PreAuthorize("@ss.hasPermi('deal:userDeal:edit')")
     @Log(title = "用户交易", businessType = BusinessType.UPDATE)
     @PutMapping
+    @Operation(summary = "修改用户交易")
     public AjaxResult edit(@RequestBody UserDeal userDeal)
     {
         return toAjax(userDealService.updateUserDeal(userDeal));
@@ -97,6 +105,7 @@ public class UserDealController extends BaseController
     @PreAuthorize("@ss.hasPermi('deal:userDeal:remove')")
     @Log(title = "用户交易", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
+    @Operation(summary = "删除用户交易")
     public AjaxResult remove(@PathVariable String[] ids)
     {
         return toAjax(userDealService.deleteUserDealByIds(ids));

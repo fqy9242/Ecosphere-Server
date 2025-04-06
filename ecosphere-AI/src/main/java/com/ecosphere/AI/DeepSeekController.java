@@ -1,31 +1,30 @@
 package com.ecosphere.AI;
-
-import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
 import com.ecosphere.AI.pojo.AiChatDto;
 import com.ecosphere.common.annotation.Anonymous;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
 /**
  * @author qht
  */
 @Anonymous
+@Tag(name = "ai-deepSeek模块")
 @RestController
 @RequestMapping("/ai/deepseek")
 @RequiredArgsConstructor
 public class DeepSeekController {
     private final ChatClient chatClient;
-    @PostMapping(value = "/chat", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @Operation(summary = "对话")
+    @PostMapping(value = "/chat", produces = "html/text;charset-utf-8")
     public Flux<String> streamChatReactive(@RequestBody AiChatDto aiChatDto) {
         return chatClient.prompt()
                 .user(aiChatDto.getMessage())
-//                .advisors()
+                .advisors(advisorSpec -> advisorSpec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, aiChatDto.getChatId()))
                 .stream()
                 .content();
     }

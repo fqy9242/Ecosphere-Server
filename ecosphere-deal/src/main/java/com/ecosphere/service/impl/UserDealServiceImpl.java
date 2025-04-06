@@ -31,8 +31,7 @@ public class UserDealServiceImpl implements IUserDealService
      * @return 用户交易
      */
     @Override
-    public UserDeal selectUserDealById(String id)
-    {
+    public UserDeal selectUserDealById(String id) {
         return userDealMapper.selectUserDealById(id);
     }
 
@@ -43,10 +42,23 @@ public class UserDealServiceImpl implements IUserDealService
      * @return 用户交易
      */
     @Override
-    public List<UserDeal> selectUserDealList(UserDeal userDeal)
-    {
-        return userDealMapper.selectUserDealList(userDeal);
+    public List<UserDeal> selectUserDealList(UserDeal userDeal) {
+         // 查询交易列表
+        List<UserDeal> userDeals = userDealMapper.selectUserDealList(userDeal);
+        // 获取商品图片列表
+        userDeals.forEach(good -> {
+            good.setUserDealGoodImgList(getDealImagesById(good.getId()));
+        });
+        return userDeals;
     }
+
+    /**
+     * 获取交易商品图片
+     */
+    public List<UserDealGoodImg> getDealImagesById(String id) {
+        return userDealMapper.selectImagesByGoodId(id);
+    }
+
 
     /**
      * 新增用户交易
