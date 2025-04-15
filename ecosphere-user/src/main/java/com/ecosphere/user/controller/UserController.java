@@ -3,7 +3,9 @@ package com.ecosphere.user.controller;
 import java.util.List;
 
 import com.ecosphere.common.annotation.Anonymous;
+import com.ecosphere.common.utils.SendEmailUtils;
 import com.ecosphere.user.domain.Dto.UserLoginDto;
+import com.ecosphere.user.domain.Dto.UserRegisterDto;
 import com.ecosphere.user.domain.vo.UserLoginVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,6 +43,8 @@ public class UserController extends BaseController
 {
     @Autowired
     private IEcosphereUserService ecosphereUserService;
+    @Autowired
+    private SendEmailUtils emailUtils;
 
     /**
      * 查询注册用户列表
@@ -77,16 +81,7 @@ public class UserController extends BaseController
         return success(ecosphereUserService.selectEcosphereUserById(id));
     }
 
-    /**
-     * 新增注册用户
-     */
-    @PreAuthorize("@ss.hasPermi('user:users:add')")
-    @Log(title = "注册用户", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody EcosphereUser ecosphereUser)
-    {
-        return toAjax(ecosphereUserService.insertEcosphereUser(ecosphereUser));
-    }
+
 
     /**
      * 修改注册用户
@@ -130,7 +125,23 @@ public class UserController extends BaseController
         UserLoginVo vo = ecosphereUserService.login(userLoginDto);
         return AjaxResult.success(vo);
     }
-    public AjaxResult register() {
+
+
+    /**
+     * 发送邮箱验证码
+     */
+    @Anonymous
+    @Operation(summary = "发送邮件验证码")
+    @GetMapping("/sendEmailCode")
+    public AjaxResult sendEmailCode(String mail) throws Exception {
+        emailUtils.sendEmailCode(mail);
         return AjaxResult.success();
+    }
+    @Anonymous
+    @Operation(summary = "注册用户")
+    @PostMapping
+    public AjaxResult register(@RequestBody UserRegisterDto dto) throws Exception {
+        UserLoginVo vo = ecosphereUserService.register(dto);
+        return AjaxResult.success(vo);
     }
 }

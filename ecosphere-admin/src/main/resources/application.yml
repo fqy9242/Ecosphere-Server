@@ -49,7 +49,24 @@ user:
 
 # Spring配置
 spring:
-    # 数据源配置
+  # 邮件配置
+  mail:
+    host: ${ecosphere.mail.host}
+    port: ${ecosphere.mail.port}
+    default-encoding: UTF-8
+    username: ${ecosphere.mail.username}
+    # 授权码
+    password: ${email_key}
+    protocol: smtps
+    # 其他的属性
+    properties:
+      "mail.smtp.connectiontimeout": 5000
+      "mail.smtp.timeout": 3000
+      "mail.smtp.writetimeout": 5000
+      "mail.smtp.auth": true
+      "mail.smtp.starttls.enable": true
+      "mail.smtp.starttls.required": true
+  # 数据源配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: ${ecosphere.datasource.driver-class-name}

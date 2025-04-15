@@ -5,6 +5,7 @@ import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecosphere.user.domain.Dto.UserLoginDto;
 import com.ecosphere.common.domain.entity.EcosphereUser;
+import com.ecosphere.user.domain.Dto.UserRegisterDto;
 import com.ecosphere.user.domain.vo.UserLoginVo;
 
 /**
@@ -31,13 +32,6 @@ public interface IEcosphereUserService extends IService<EcosphereUser>
      */
     public List<EcosphereUser> selectEcosphereUserList(EcosphereUser ecosphereUser);
 
-    /**
-     * 新增注册用户
-     * 
-     * @param ecosphereUser 注册用户
-     * @return 结果
-     */
-    public int insertEcosphereUser(EcosphereUser ecosphereUser);
 
     /**
      * 修改注册用户
@@ -70,4 +64,6 @@ public interface IEcosphereUserService extends IService<EcosphereUser>
      * @return 结果
      */
     UserLoginVo login(UserLoginDto userLoginDto);
+
+    UserLoginVo register(UserRegisterDto dto) throws Exception;
 }

@@ -40,6 +40,7 @@
         <xfileStoratge.version>2.2.1</xfileStoratge.version>
         <lombok.version>1.18.36</lombok.version>
         <knife4j.version>4.4.0</knife4j.version>
+        <email.version>3.4.4</email.version>
 
     </properties>
 
@@ -267,6 +268,12 @@
                 <version>${knife4j.version}</version>
             </dependency>
 
+            <!--发送邮件-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${email.version}</version>
+            </dependency>
 
 
 

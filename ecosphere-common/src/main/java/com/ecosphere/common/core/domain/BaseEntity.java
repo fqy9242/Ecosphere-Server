@@ -29,7 +29,7 @@ public class BaseEntity implements Serializable
     private String createBy;
 
     /** 创建时间 */
-    @TableField(exist = false)
+    @TableField("create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
@@ -38,7 +38,7 @@ public class BaseEntity implements Serializable
     private String updateBy;
 
     /** 更新时间 */
-    @TableField(exist = false)
+    @TableField("update_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
