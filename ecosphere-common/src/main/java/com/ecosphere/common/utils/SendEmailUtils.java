@@ -9,10 +9,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author qht
@@ -49,7 +52,10 @@ public class SendEmailUtils {
         // 生成6位验证码
         String code = CodeUtils.generateCode(6);
         ClassPathResource resource = new ClassPathResource("templates/sendMailCodeTemplate.html");
-        String html = new String(Files.readAllBytes(resource.getFile().toPath()), StandardCharsets.UTF_8);
+        String html;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getStream(), StandardCharsets.UTF_8))) {
+            html = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        }
         // 发送邮件
         sendEmail("邮箱验证码", html.replace("{0}", code), email);
         // 将验证码存入redis
@@ -57,7 +63,10 @@ public class SendEmailUtils {
     }
     public void sendRegisterSuccessMail(String  email, String username) throws Exception {
         ClassPathResource resource = new ClassPathResource("templates/sendRegisterSuccessMail.html");
-        String html = new String(Files.readAllBytes(resource.getFile().toPath()), StandardCharsets.UTF_8);
+        String html;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getStream(), StandardCharsets.UTF_8))) {
+            html = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        }
         // 发送邮件
         sendEmail("注册成功！", html.replace("{username}", username), email);
     }
