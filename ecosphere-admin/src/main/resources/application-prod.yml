@@ -8,3 +8,7 @@ ecosphere:
   redis:
     host: redis
     port: 6379
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 2727676635@qq.com

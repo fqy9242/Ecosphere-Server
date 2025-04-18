@@ -1,6 +1,14 @@
 package com.ecosphere.user.controller;
 
 import java.util.List;
+
+import com.ecosphere.common.annotation.Anonymous;
+import com.ecosphere.common.utils.SendEmailUtils;
+import com.ecosphere.user.domain.Dto.UserLoginDto;
+import com.ecosphere.user.domain.Dto.UserRegisterDto;
+import com.ecosphere.user.domain.vo.UserLoginVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +24,7 @@ import com.ecosphere.common.annotation.Log;
 import com.ecosphere.common.core.controller.BaseController;
 import com.ecosphere.common.core.domain.AjaxResult;
 import com.ecosphere.common.enums.BusinessType;
-import com.ecosphere.user.domain.EcosphereUser;
+import com.ecosphere.common.domain.entity.EcosphereUser;
 import com.ecosphere.user.service.IEcosphereUserService;
 import com.ecosphere.common.utils.poi.ExcelUtil;
 import com.ecosphere.common.core.page.TableDataInfo;
@@ -27,12 +35,16 @@ import com.ecosphere.common.core.page.TableDataInfo;
  * @author qht
  * @date 2025-03-19
  */
+
 @RestController
+@Tag(name = "前台用户相关模块")
 @RequestMapping("/user/users")
-public class EcosphereUserController extends BaseController
+public class UserController extends BaseController
 {
     @Autowired
     private IEcosphereUserService ecosphereUserService;
+    @Autowired
+    private SendEmailUtils emailUtils;
 
     /**
      * 查询注册用户列表
@@ -69,16 +81,7 @@ public class EcosphereUserController extends BaseController
         return success(ecosphereUserService.selectEcosphereUserById(id));
     }
 
-    /**
-     * 新增注册用户
-     */
-    @PreAuthorize("@ss.hasPermi('user:users:add')")
-    @Log(title = "注册用户", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody EcosphereUser ecosphereUser)
-    {
-        return toAjax(ecosphereUserService.insertEcosphereUser(ecosphereUser));
-    }
+
 
     /**
      * 修改注册用户
@@ -100,5 +103,45 @@ public class EcosphereUserController extends BaseController
     public AjaxResult remove(@PathVariable String[] ids)
     {
         return toAjax(ecosphereUserService.deleteEcosphereUserByIds(ids));
+    }
+
+    /**
+     * 统计注册用户数量
+     */
+    @Operation(summary = "统计用户注册数量")
+//    @Anonymous
+    @GetMapping("/count")
+    public AjaxResult count() {
+        return AjaxResult.success(ecosphereUserService.count());
+    }
+
+    /**
+     * 用户登录
+     */
+    @PostMapping("/login")
+    @Operation(summary = "用户登录")
+    @Anonymous
+    public AjaxResult login(@RequestBody UserLoginDto userLoginDto) {
+        UserLoginVo vo = ecosphereUserService.login(userLoginDto);
+        return AjaxResult.success(vo);
+    }
+
+
+    /**
+     * 发送邮箱验证码
+     */
+    @Anonymous
+    @Operation(summary = "发送邮件验证码")
+    @GetMapping("/sendEmailCode")
+    public AjaxResult sendEmailCode(String mail) throws Exception {
+        emailUtils.sendEmailCode(mail);
+        return AjaxResult.success();
+    }
+    @Anonymous
+    @Operation(summary = "注册用户")
+    @PostMapping
+    public AjaxResult register(@RequestBody UserRegisterDto dto) throws Exception {
+        UserLoginVo vo = ecosphereUserService.register(dto);
+        return AjaxResult.success(vo);
     }
 }

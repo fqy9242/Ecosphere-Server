@@ -1,7 +1,10 @@
-package com.ecosphere.user.domain;
+package com.ecosphere.common.domain.entity;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ecosphere.common.annotation.Excel;
@@ -13,6 +16,8 @@ import com.ecosphere.common.core.domain.BaseEntity;
  * @author qht
  * @date 2025-03-19
  */
+@TableName("ecosphere_user")
+@Data
 public class EcosphereUser extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -47,86 +52,6 @@ public class EcosphereUser extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "上次登录", width = 30, dateFormat = "yyyy-MM-dd")
     private Date lastLoginTime;
-
-    public void setId(String id) 
-    {
-        this.id = id;
-    }
-
-    public String getId() 
-    {
-        return id;
-    }
-
-    public void setUsername(String username) 
-    {
-        this.username = username;
-    }
-
-    public String getUsername() 
-    {
-        return username;
-    }
-
-    public void setPassword(String password) 
-    {
-        this.password = password;
-    }
-
-    public String getPassword() 
-    {
-        return password;
-    }
-
-    public void setPhone(String phone) 
-    {
-        this.phone = phone;
-    }
-
-    public String getPhone() 
-    {
-        return phone;
-    }
-
-    public void setEmail(String email) 
-    {
-        this.email = email;
-    }
-
-    public String getEmail() 
-    {
-        return email;
-    }
-
-    public void setPicture(String picture) 
-    {
-        this.picture = picture;
-    }
-
-    public String getPicture() 
-    {
-        return picture;
-    }
-
-    public void setUserStatus(Integer userStatus) 
-    {
-        this.userStatus = userStatus;
-    }
-
-    public Integer getUserStatus() 
-    {
-        return userStatus;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) 
-    {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public Date getLastLoginTime() 
-    {
-        return lastLoginTime;
-    }
 
     @Override
     public String toString() {

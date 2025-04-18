@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AiChatDto {
     private String message;
+    private String chatId;
 }

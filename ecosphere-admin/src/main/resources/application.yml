@@ -37,6 +37,7 @@ logging:
   level:
     com.ecosphere: debug
     org.springframework: warn
+    org.springframework.ai.chat: debug
 
 # 用户配置
 user:
@@ -48,7 +49,24 @@ user:
 
 # Spring配置
 spring:
-    # 数据源配置
+  # 邮件配置
+  mail:
+    host: ${ecosphere.mail.host}
+    port: ${ecosphere.mail.port}
+    default-encoding: UTF-8
+    username: ${ecosphere.mail.username}
+    # 授权码
+    password: ${email_key}
+    protocol: smtps
+    # 其他的属性
+    properties:
+      "mail.smtp.connectiontimeout": 5000
+      "mail.smtp.timeout": 3000
+      "mail.smtp.writetimeout": 5000
+      "mail.smtp.auth": true
+      "mail.smtp.starttls.enable": true
+      "mail.smtp.starttls.required": true
+  # 数据源配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: ${ecosphere.datasource.driver-class-name}
@@ -164,18 +182,30 @@ token:
   header: Authorization
   # 令牌密钥
   secret: abcdefghijklmnopqrstuvwxyz
-  # 令牌有效期（默认30分钟）
-  expireTime: 30
+  # 令牌有效期
+  expireTime: 300
 
 # MyBatis配置
-mybatis:
-  # 搜索指定包别名
-  typeAliasesPackage: com.ecosphere.**.domain
-  # 配置mapper的扫描，找到所有的mapper.xml映射文件
-  mapperLocations: classpath*:mapper/**/*Mapper.xml
-  # 加载全局的配置文件
-  configLocation: classpath:mybatis/mybatis-config.xml
+#mybatis:
+#  # 搜索指定包别名
+#  typeAliasesPackage: com.ecosphere.**.domain
+#  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+#  mapperLocations: classpath*:mapper/**/*Mapper.xml
+#  # 加载全局的配置文件
+#  configLocation: classpath:mybatis/mybatis-config.xml
 
+# mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  type-aliases-package: com.ecosphere.**.domain
+#  configLocation: classpath:mybatis/mybatis-config.xml
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # PageHelper分页插件
 pagehelper:
   helperDialect: mysql
@@ -183,18 +213,18 @@ pagehelper:
   params: count=countSql
 
 # Springdoc配置
-springdoc:
-  api-docs:
-    path: /v3/api-docs
-  swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
-    tags-sorter: alpha
-  group-configs:
-    - group: 'default'
-      display-name: '测试模块'
-      paths-to-match: '/**'
-      packages-to-scan: com.ecosphere.web.controller.tool
+#springdoc:
+#  api-docs:
+#    path: /v3/api-docs
+#  swagger-ui:
+#    enabled: true
+#    path: /swagger-ui.html
+#    tags-sorter: alpha
+#  group-configs:
+#    - group: 'default'
+##      display-name: '测试模块'
+##      paths-to-match: '/**'
+#      packages-to-scan: com.ecosphere
 
 # 防止XSS攻击
 xss:
@@ -221,7 +251,7 @@ dromara:
         domain: https://yl-ecosphere.oss-cn-guangzhou.aliyuncs.com/ # 访问域名，注意“/”结尾，例如：https://abc.oss-cn-shanghai.aliyuncs.com/
         base-path: web/ # 基础路径
 ecosphere:
-  AI_DEFAULT_PROMPT: 你是一个环保专家，请用中文回答以下问题，要求：
+  systemPrompt: 你是一个环保专家，请用中文回答以下问题，要求：
     1. 数据需标注来源和年份
     2. 政策解读需注明文件号
     3. 给出可验证的参考资料

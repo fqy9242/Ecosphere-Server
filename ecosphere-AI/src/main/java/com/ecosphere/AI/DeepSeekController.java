@@ -1,40 +1,31 @@
 package com.ecosphere.AI;
-
-import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
 import com.ecosphere.AI.pojo.AiChatDto;
 import com.ecosphere.common.annotation.Anonymous;
-import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
+/**
+ * @author qht
+ */
 @Anonymous
+@Tag(name = "ai-deepSeek模块")
 @RestController
 @RequestMapping("/ai/deepseek")
+@RequiredArgsConstructor
 public class DeepSeekController {
-    private final DashScopeChatModel chatModel;
-    @Value("${ecosphere.AI_DEFAULT_PROMPT}")
-    private String DEFAULT_PROMPT;
-    public DeepSeekController(DashScopeChatModel chatModel) {
-        this.chatModel = chatModel;
-    }
-
-    @PostMapping(value = "/chat", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    private final ChatClient chatClient;
+    @Operation(summary = "对话")
+    @PostMapping(value = "/chat", produces = "html/text;charset-utf-8")
     public Flux<String> streamChatReactive(@RequestBody AiChatDto aiChatDto) {
-        Flux<ChatResponse> stream = chatModel.stream(new Prompt(aiChatDto.getMessage()));
-        return Flux.from(stream)
-                .map(chunk -> {
-                    if (chunk.getResult() != null
-                            && chunk.getResult().getOutput() != null
-                            && chunk.getResult().getOutput().getContent() != null) {
-                        return chunk.getResult().getOutput().getContent();
-                    }
-                    return ""; // 过滤空数据
-                })
-                .filter(content -> !content.isEmpty())
-                .onErrorResume(e -> Flux.just("Error: " + e.getMessage()))
-                .doFinally(signal -> System.out.println("Stream completed"));
+        return chatClient.prompt()
+                .user(aiChatDto.getMessage())
+                .advisors(advisorSpec -> advisorSpec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, aiChatDto.getChatId()))
+                .stream()
+                .content();
     }
 }

@@ -80,8 +80,7 @@ public class CommonController
      * 通用上传请求（单个）
      */
     @PostMapping("/upload")
-    public AjaxResult uploadFile(MultipartFile file) throws Exception
-    {
+    public AjaxResult uploadFile(MultipartFile file) throws Exception {
         try
         {
 //            // 上传文件路径

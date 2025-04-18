@@ -1,7 +1,9 @@
 package com.ecosphere.user.mapper;
 
 import java.util.List;
-import com.ecosphere.user.domain.EcosphereUser;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ecosphere.common.domain.entity.EcosphereUser;
 
 /**
  * 注册用户Mapper接口
@@ -9,7 +11,7 @@ import com.ecosphere.user.domain.EcosphereUser;
  * @author qht
  * @date 2025-03-19
  */
-public interface EcosphereUserMapper 
+public interface EcosphereUserMapper extends BaseMapper<EcosphereUser>
 {
     /**
      * 查询注册用户
@@ -58,4 +60,5 @@ public interface EcosphereUserMapper
      * @return 结果
      */
     public int deleteEcosphereUserByIds(String[] ids);
+
 }

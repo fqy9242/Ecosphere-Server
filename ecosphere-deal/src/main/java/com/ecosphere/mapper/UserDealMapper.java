@@ -4,6 +4,8 @@ import java.util.List;
 import com.ecosphere.domain.UserDeal;
 import com.ecosphere.domain.UserDealGoodImg;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * 用户交易Mapper接口
@@ -20,8 +22,7 @@ public interface UserDealMapper
      * @param id 用户交易主键
      * @return 用户交易
      */
-    public UserDeal selectUserDealById(String id);
-
+    public UserDeal selectUserDealById(Integer id);
     /**
      * 查询用户交易列表
      * 
@@ -86,4 +87,6 @@ public interface UserDealMapper
      * @return 结果
      */
     public int deleteUserDealGoodImgByDealGoodId(String id);
+    @Select("select * from user_deal_good_img where deal_good_id = #{goodId} and is_delete = 0")
+    List<UserDealGoodImg> selectImagesByGoodId(@Param("goodId") Integer goodId);
 }
