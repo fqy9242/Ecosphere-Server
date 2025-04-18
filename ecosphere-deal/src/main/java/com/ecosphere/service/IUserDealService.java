@@ -1,7 +1,12 @@
 package com.ecosphere.service;
 
 import java.util.List;
+
+import com.ecosphere.domain.UpdateUserDealDto;
 import com.ecosphere.domain.UserDeal;
+import com.ecosphere.domain.dto.InsertUserDealDto;
+import com.ecosphere.domain.vo.UserDealVo;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 用户交易Service接口
@@ -25,23 +30,17 @@ public interface IUserDealService
      * @param userDeal 用户交易
      * @return 用户交易集合
      */
-    public List<UserDeal> selectUserDealList(UserDeal userDeal);
+    public List<UserDealVo> selectUserDealList(UserDeal userDeal);
 
-    /**
-     * 新增用户交易
-     * 
-     * @param userDeal 用户交易
-     * @return 结果
-     */
-    public int insertUserDeal(UserDeal userDeal);
+    @Transactional
+    void insertUserDeal(InsertUserDealDto dto);
 
     /**
      * 修改用户交易
-     * 
-     * @param userDeal 用户交易
-     * @return 结果
      */
-    public int updateUserDeal(UserDeal userDeal);
+
+    @Transactional
+    int updateUserDeal(UpdateUserDealDto dto);
 
     /**
      * 批量删除用户交易

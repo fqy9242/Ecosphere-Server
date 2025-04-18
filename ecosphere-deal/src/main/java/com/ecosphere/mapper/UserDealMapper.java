@@ -89,5 +89,5 @@ public interface UserDealMapper
      */
     public int deleteUserDealGoodImgByDealGoodId(String id);
     @Select("select * from user_deal_good_img where deal_good_id = #{id} and is_delete = 0")
-    List<UserDealGoodImg> selectImagesByGoodId(@Param("id") String id);
+    List<UserDealGoodImg> selectImagesByGoodId(@Param("id") Integer id);
 }

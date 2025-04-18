@@ -2,6 +2,9 @@ package com.ecosphere.controller;
 
 import java.util.List;
 
+import com.ecosphere.domain.UpdateUserDealDto;
+import com.ecosphere.domain.dto.InsertUserDealDto;
+import com.ecosphere.domain.vo.UserDealVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,11 +36,9 @@ import com.ecosphere.common.core.page.TableDataInfo;
 @RestController
 @RequestMapping("/deal/userDeal")
 @Tag(name = "用户交易相关模块")
-public class UserDealController extends BaseController
-{
+public class UserDealController extends BaseController {
     @Autowired
     private IUserDealService userDealService;
-
     /**
      * 查询用户交易列表
      */
@@ -46,7 +47,7 @@ public class UserDealController extends BaseController
     public TableDataInfo list(UserDeal userDeal)
     {
         startPage();
-        List<UserDeal> list = userDealService.selectUserDealList(userDeal);
+        List<UserDealVo> list = userDealService.selectUserDealList(userDeal);
         return getDataTable(list);
     }
 
@@ -59,8 +60,8 @@ public class UserDealController extends BaseController
     @Operation(summary = "导出用户交易列表")
     public void export(HttpServletResponse response, UserDeal userDeal)
     {
-        List<UserDeal> list = userDealService.selectUserDealList(userDeal);
-        ExcelUtil<UserDeal> util = new ExcelUtil<UserDeal>(UserDeal.class);
+        List<UserDealVo> list = userDealService.selectUserDealList(userDeal);
+        ExcelUtil<UserDealVo> util = new ExcelUtil<UserDealVo>(UserDealVo.class);
         util.exportExcel(response, list, "用户交易数据");
     }
 
@@ -78,13 +79,12 @@ public class UserDealController extends BaseController
     /**
      * 新增用户交易
      */
-    @PreAuthorize("@ss.hasPermi('deal:userDeal:add')")
     @Log(title = "用户交易", businessType = BusinessType.INSERT)
     @PostMapping
     @Operation(summary = "新增用户交易")
-    public AjaxResult add(@RequestBody UserDeal userDeal)
-    {
-        return toAjax(userDealService.insertUserDeal(userDeal));
+    public AjaxResult add(@RequestBody InsertUserDealDto dto) {
+        userDealService.insertUserDeal(dto);
+        return AjaxResult.success();
     }
 
     /**
@@ -94,9 +94,9 @@ public class UserDealController extends BaseController
     @Log(title = "用户交易", businessType = BusinessType.UPDATE)
     @PutMapping
     @Operation(summary = "修改用户交易")
-    public AjaxResult edit(@RequestBody UserDeal userDeal)
+    public AjaxResult edit(@RequestBody UpdateUserDealDto dto)
     {
-        return toAjax(userDealService.updateUserDeal(userDeal));
+        return toAjax(userDealService.updateUserDeal(dto));
     }
 
     /**
