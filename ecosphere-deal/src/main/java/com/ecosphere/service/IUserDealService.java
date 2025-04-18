@@ -22,7 +22,7 @@ public interface IUserDealService
      * @param id 用户交易主键
      * @return 用户交易
      */
-    public UserDeal selectUserDealById(String id);
+    public UserDealVo selectUserDealById(Integer id);
 
     /**
      * 查询用户交易列表

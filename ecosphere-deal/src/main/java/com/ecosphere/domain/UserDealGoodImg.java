@@ -9,6 +9,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ecosphere.common.annotation.Excel;
 import com.ecosphere.common.core.domain.BaseEntity;
 
+import java.time.LocalDateTime;
+
 /**
  * 用户交易物品图片对象 user_deal_good_img
  * 
@@ -19,7 +21,7 @@ import com.ecosphere.common.core.domain.BaseEntity;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDealGoodImg extends BaseEntity
+public class UserDealGoodImg
 {
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +38,8 @@ public class UserDealGoodImg extends BaseEntity
 
     /** 0未删除 1已删除 */
     private String isDelete;
-
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 
     @Override
     public String toString() {
@@ -44,8 +47,6 @@ public class UserDealGoodImg extends BaseEntity
             .append("id", getId())
             .append("dealGoodId", getDealGoodId())
             .append("imgUrl", getImgUrl())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
             .append("isDelete", getIsDelete())
             .toString();
     }

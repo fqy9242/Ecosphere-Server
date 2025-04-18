@@ -44,8 +44,7 @@ public class UserDealController extends BaseController {
      */
     @GetMapping("/list")
     @Operation(summary = "查询用户交易列表")
-    public TableDataInfo list(UserDeal userDeal)
-    {
+    public TableDataInfo list(UserDeal userDeal) {
         startPage();
         List<UserDealVo> list = userDealService.selectUserDealList(userDeal);
         return getDataTable(list);
@@ -71,8 +70,7 @@ public class UserDealController extends BaseController {
     @PreAuthorize("@ss.hasPermi('deal:userDeal:query')")
     @GetMapping(value = "/{id}")
     @Operation(summary = "获取用户交易详细信息")
-    public AjaxResult getInfo(@PathVariable("id") String id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Integer id) {
         return success(userDealService.selectUserDealById(id));
     }
 
@@ -94,8 +92,7 @@ public class UserDealController extends BaseController {
     @Log(title = "用户交易", businessType = BusinessType.UPDATE)
     @PutMapping
     @Operation(summary = "修改用户交易")
-    public AjaxResult edit(@RequestBody UpdateUserDealDto dto)
-    {
+    public AjaxResult edit(@RequestBody UpdateUserDealDto dto) {
         return toAjax(userDealService.updateUserDeal(dto));
     }
 
@@ -106,8 +103,7 @@ public class UserDealController extends BaseController {
     @Log(title = "用户交易", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     @Operation(summary = "删除用户交易")
-    public AjaxResult remove(@PathVariable String[] ids)
-    {
+    public AjaxResult remove(@PathVariable String[] ids) {
         return toAjax(userDealService.deleteUserDealByIds(ids));
     }
 }

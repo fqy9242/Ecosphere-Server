@@ -22,8 +22,7 @@ public interface UserDealMapper
      * @param id 用户交易主键
      * @return 用户交易
      */
-    public UserDeal selectUserDealById(String id);
-
+    public UserDeal selectUserDealById(Integer id);
     /**
      * 查询用户交易列表
      * 
@@ -88,6 +87,6 @@ public interface UserDealMapper
      * @return 结果
      */
     public int deleteUserDealGoodImgByDealGoodId(String id);
-    @Select("select * from user_deal_good_img where deal_good_id = #{id} and is_delete = 0")
-    List<UserDealGoodImg> selectImagesByGoodId(@Param("id") Integer id);
+    @Select("select * from user_deal_good_img where deal_good_id = #{goodId} and is_delete = 0")
+    List<UserDealGoodImg> selectImagesByGoodId(@Param("goodId") Integer goodId);
 }

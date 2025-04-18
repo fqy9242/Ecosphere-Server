@@ -36,8 +36,15 @@ public class UserDealServiceImpl implements IUserDealService
      * @return 用户交易
      */
     @Override
-    public UserDeal selectUserDealById(String id) {
-        return userDealMapper.selectUserDealById(id);
+    public UserDealVo selectUserDealById(Integer id) {
+        UserDeal userDeal = userDealMapper.selectUserDealById(id);
+        // 创建一个VO对象并拷贝属性
+        UserDealVo userDealVo = new UserDealVo();
+        BeanUtils.copyProperties(userDeal, userDealVo);
+        // 获取商品图片列表
+        List<UserDealGoodImg> images = userDealMapper.selectImagesByGoodId(userDeal.getId());
+        userDealVo.setUserDealGoodImgList(images);
+        return userDealVo;
     }
 
     /**
@@ -84,8 +91,10 @@ public class UserDealServiceImpl implements IUserDealService
         BeanUtils.copyProperties(dto, userDeal);
         userDeal.setCreateTime(LocalDateTime.now());
         userDeal.setUpdateTime(LocalDateTime.now());
-        int id = userDealMapper.insertUserDeal(userDeal);
+        userDealMapper.insertUserDeal(userDeal);
+        int id = userDeal.getId();
         // 如果传过来的图片列表不为空，则批量插入到商品图片表
+        insertUserDealGoodImg(dto.getImageUrlList(), id);
 
     }
 
@@ -140,8 +149,13 @@ public class UserDealServiceImpl implements IUserDealService
         if (urlList != null) {
             List<UserDealGoodImg> goodImages = new ArrayList<>();
             urlList.forEach(img -> {
-                UserDealGoodImg.builder()
-                        .dealGoodId(goodId);
+                UserDealGoodImg goodImg = UserDealGoodImg.builder()
+                        .dealGoodId(goodId)
+                        .imgUrl(img)
+                        .createTime(LocalDateTime.now())
+                        .updateTime(LocalDateTime.now())
+                        .build();
+                goodImages.add(goodImg);
             });
             userDealMapper.batchUserDealGoodImg(goodImages);
         }
